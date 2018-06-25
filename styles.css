@@ -1,0 +1,126 @@
+body{
+    font-family: serif;
+    background-color: grey;
+}
+
+header {
+    width: 100%;
+    text-align: center;
+    font-size: 75px;
+    margin-top: 35px;
+    margin-bottom: 33px;
+    font-family: 'Century Gothic', 'Times New Roman', Times, serif;
+    color: #262207;
+}
+
+.main {
+    position: relative;
+    height: 300px;
+    width: 700px;
+    margin: auto;
+    margin-bottom: 20px;
+    background-image: url(https://orig00.deviantart.net/a719/f/2011/131/b/3/dream_by_sulamith-d2yvzyu.png);
+    color: white;
+    text-shadow: 1px 1px 1px #4444ff;
+}
+
+.you {
+    width: 125px;
+    /*background: #f00;*/
+}
+
+.enemy {
+    width: 175px;
+}
+
+.knight {
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    text-align: left;
+    margin: 15px;
+}
+
+.sorceress {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-align: right;
+    margin: 15px;
+}
+
+#control{
+    margin: auto;
+    border: 2px groove black;
+    text-align: center;
+    width: 250px;
+    padding: 10px;
+}
+
+img {
+    width: 100%;
+    text-align: center;
+    z-index: 1;
+}
+
+progress{
+    width: 100px;
+    background-color: green;
+}
+
+#fHealthDisplay{
+    margin-left: 53px;
+    margin-top: 0;
+}
+
+#sHealthDisplay{
+    margin-right: 40px;
+    margin-top: 0;
+}
+
+#instructionButton{
+    width: 90px;
+}
+
+#insButtonContainer{
+    margin: 10px auto 10px auto;
+    width: 90px;
+    padding-left: 200px;
+}
+
+span{
+    font-weight: bold;
+}
+
+button:active{
+    font-weight: bold;
+    background-color: #fff;
+    
+}
+
+img{
+    position: relative;
+}
+
+#poop{
+    position: absolute;
+    color: black;
+    text-shadow: 1px 1px 1px brown;
+    top: 100px;
+    left: 20px;
+    display: none;
+    font-size: 30px;
+}
+
+#whisker{
+    position: absolute;
+    color: black;
+    text-shadow: 2px 2px black;
+    top: 100px;
+    left: 20px;
+    display: none;
+    font-size: 30px;
+}
+

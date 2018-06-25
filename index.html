@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Knight vs. Sorceress - Magic Game</title>
+        <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+        <link rel="stylesheet" type="text/css" href="styles.css" />
+        <script src="logic.js"></script>
+    </head>
+    <body>
+
+        <header>
+            Knight Vs. Sorceress - Magic Game
+        </header>
+
+        <article class="main">
+            <div class="knight">
+                
+                <div class="you">
+                    <img src="https://orig00.deviantart.net/a02f/f/2018/175/e/0/knight_3_idle_anim_by_kungfoowiz-dcfd2y8.gif" id="fImage" />
+                </div>
+
+                <br />
+                You: <progress id="firstProgress"></progress>
+                <p id="fHealthDisplay"></p>
+                <p>Energy: <span id="fEnergyDisplay"></span></p>
+            </div>
+            
+            <div class="sorceress">
+
+                <div class="enemy">
+                    <img src="https://orig00.deviantart.net/3117/f/2018/175/a/9/sorcerer_villain_anim_by_kungfoowiz-dcfd58n.gif" id="sImage" />
+                </div>
+
+                <br />
+                Enemy: <progress id="secondProgress"></progress>
+                <p id="sHealthDisplay"></p>
+            </div>
+        </article>
+        
+        
+        <div id="control">
+                      
+            <button onclick="youAttack()">Attack</button>
+            <button onclick="youCounter()">Counter</button>
+            
+            <p style="margin: 3px; margin-top: 10px;">Spells:</p>
+        </div>
+    </body>
+</html>
