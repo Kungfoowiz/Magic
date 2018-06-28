@@ -13,41 +13,43 @@
     <body>
 
         <header>
-            Knight Vs. Sorceress - Magic Game
+            <h1>Knight Vs. Sorceress - A Magic Game</h1>
+            <h3>This is a work in progress game ... =)</h3>
         </header>
 
         <article class="main">
             <div class="knight">
-                
-                <div class="you">
-                    <img src="https://orig00.deviantart.net/a02f/f/2018/175/e/0/knight_3_idle_anim_by_kungfoowiz-dcfd2y8.gif" id="fImage" />
-                </div>
 
                 <br />
                 You: <progress id="firstProgress"></progress>
                 <p id="fHealthDisplay"></p>
                 <p>Energy: <span id="fEnergyDisplay"></span></p>
+
+                <div class="you">
+                    <img src="https://orig00.deviantart.net/3669/f/2018/178/5/8/knight_3_idle_anim_by_kungfoowiz-dcfn8e7.gif" id="fImage" />
+                </div>
             </div>
             
             <div class="sorceress">
 
-                <div class="enemy">
-                    <img src="https://orig00.deviantart.net/3117/f/2018/175/a/9/sorcerer_villain_anim_by_kungfoowiz-dcfd58n.gif" id="sImage" />
-                </div>
-
                 <br />
                 Enemy: <progress id="secondProgress"></progress>
                 <p id="sHealthDisplay"></p>
+
+                <div class="enemy">
+                    <img src="https://orig00.deviantart.net/56d7/f/2018/178/c/d/sorcerer_villain_anim_by_kungfoowiz-dcfn85l.gif" id="sImage" />
+                </div>
+
             </div>
         </article>
         
         
-        <div id="control">
+        <aside class="small">
                       
             <button onclick="youAttack()">Attack</button>
             <button onclick="youCounter()">Counter</button>
             
             <p style="margin: 3px; margin-top: 10px;">Spells:</p>
-        </div>
+        </aside>
     </body>
 </html>

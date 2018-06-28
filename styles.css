@@ -13,31 +13,43 @@ header {
     color: #262207;
 }
 
+h1, h3 {
+    font-family: 'Century Gothic', 'Times New Roman', Times, serif !important;
+    color: #262207;
+}
+
+h1 {
+    font-size: 50px;
+}
+
+h3 {
+    font-size: 17px;
+}
+
 .main {
     position: relative;
-    height: 300px;
-    width: 700px;
+    height: 405px;
+    width: 720px;
     margin: auto;
     margin-bottom: 20px;
-    background-image: url(https://orig00.deviantart.net/a719/f/2011/131/b/3/dream_by_sulamith-d2yvzyu.png);
+    background-image: url(https://78.media.tumblr.com/ba3f2c68c65ecca84afb4fd8623e314e/tumblr_nt8u4mLNug1tah9pwo2_1280.png);
     color: white;
     text-shadow: 1px 1px 1px #4444ff;
 }
 
 .you {
-    width: 125px;
-    /*background: #f00;*/
+    width: 135px;
 }
 
 .enemy {
-    width: 175px;
+    width: 200px;
 }
 
 .knight {
     display: inline-block;
     position: absolute;
     bottom: 0;
-    left: 0;
+    left: 100px;
     text-align: left;
     margin: 15px;
 }
@@ -45,13 +57,13 @@ header {
 .sorceress {
     display: inline-block;
     position: absolute;
-    top: 0;
-    right: 0;
+    bottom: 0;
+    right: 100px;
     text-align: right;
     margin: 15px;
 }
 
-#control{
+.small {
     margin: auto;
     border: 2px groove black;
     text-align: center;
