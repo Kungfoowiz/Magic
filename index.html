@@ -1,6 +1,7 @@
-
 <!DOCTYPE html>
+
 <html>
+
 <head>
     <title>Knight vs. Sorceress - Magic Game</title>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -12,6 +13,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" 
           integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 </head>
+
 <body>
 
     <aside class="top-right">
@@ -29,39 +31,39 @@
 
 
     <article class="main">
-        <div class="knight">
 
-            <br />
-            You: <progress id="firstProgress"></progress>
-            <p id="fHealthDisplay"></p>
-            <p>Energy: <span id="fEnergyDisplay"></span></p>
+        <div class="knight">
+            <span>You: </span>
+            <progress class="you-health-progress"></progress>
+            <p class="you-health-text"></p>
+            <p>Energy: <span class="you-energy-text"></span></p>
 
             <div class="you">
-                <img src="https://orig00.deviantart.net/3669/f/2018/178/5/8/knight_3_idle_anim_by_kungfoowiz-dcfn8e7.gif" id="fImage" />
+                <img src="https://orig00.deviantart.net/3669/f/2018/178/5/8/knight_3_idle_anim_by_kungfoowiz-dcfn8e7.gif" />
             </div>
         </div>
 
         <div class="sorceress">
-
-            <br />
-            Enemy: <progress id="secondProgress"></progress>
-            <p id="sHealthDisplay"></p>
+            <span>Enemy: </span>
+            <progress class="enemy-health-progress"></progress>
+            <p class="enemy-health-text"></p>
 
             <div class="enemy">
-                <img src="https://orig00.deviantart.net/56d7/f/2018/178/c/d/sorcerer_villain_anim_by_kungfoowiz-dcfn85l.gif" id="sImage" />
+                <img src="https://orig00.deviantart.net/56d7/f/2018/178/c/d/sorcerer_villain_anim_by_kungfoowiz-dcfn85l.gif" />
             </div>
-
         </div>
+
     </article>
 
 
     <aside class="small">
 
-        <a onclick="youAttack()" class="action" title="ATTACK"><i class="fas fa-skull icon"></i></a>
+        <a onclick="youAttack()" class="action" title="ATTACK!"><i class="fas fa-skull icon"></i></a>
         <a onclick="youCounter()" class="action counter" title="COUNTER"><i class="fas fa-user-shield icon"></i></a>
 
         <p style="margin: 3px; margin-top: 10px;">Spells:</p>
     </aside>
 
 </body>
+
 </html>
