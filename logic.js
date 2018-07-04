@@ -38,6 +38,11 @@ $(function () {
         $(".action").attr("disabled", "disabled");
     }
 
+    var enableActions = function () {
+        $(".action").removeAttr("disabled");
+    }
+
+
 
 
     var performAttack = function (damage, title, targetHealth, targetHealthMax, targetProgressHealth, targetProgressText) {
@@ -53,6 +58,8 @@ $(function () {
         $(targetProgressText).text(targetHealth + "/" + targetHealthMax);
     }
 
+
+
     var performRestore = function (restore, title, targetHealth, targetHealthMax, targetProgressHealth, targetProgressText) {
         alert(title + " restored " + restore + " health.");
 
@@ -65,6 +72,24 @@ $(function () {
         $(targetProgressHealth).attr("value", targetHealth);
         $(targetProgressText).text(targetHealth + "/" + targetHealthMax);
     }
+
+
+
+    var performCounter = function (damage, title, targetHealth, targetHealthMax, targetProgressHealth, targetProgressText) {
+        damage *= 2;
+
+        alert(title + " countered dealing " + damage + " damage.");
+
+        targetHealth -= damage;
+
+        if (targetHealth <= 0) {
+            targetHealth = 0;
+        }
+
+        $(targetProgressHealth).attr("value", targetHealth);
+        $(targetProgressText).text(targetHealth + "/" + targetHealthMax);
+    }
+
 
 
 });
@@ -148,7 +173,7 @@ function youRestore(){
 
         setTimeout(function () {
 
-            performRestore(youRestore, "You", youHealth, youHealthMax, ".enemy-health-progress", ".enemy-health-text");
+            performRestore(youRestore, "You", youHealth, youHealthMax, ".you-health-progress", ".you-health-text");
     
             youEnergy();
     
@@ -204,11 +229,10 @@ function youCounter() {
 
                 setTimeout(function () {
 
-                    secondHealth -= (secondDamage * 2);
-                    $("#secondProgress").attr("value", secondHealth);
-                    $("#sHealthDisplay").text(secondHealth + "/" + secondmaxHealth);
-                    alert("You countered dealing " + (secondDamage * 2) + " damage.");
-                    $("button").removeAttr("disabled");
+                    performCounter(youDamage, "You", enemyHealth, enemyHealthMax, ".enemy-health-progress", ".enemy-health-text");
+
+                    enableActions();
+
                     winnerCheck();
 
                 }, 1100);
@@ -221,7 +245,9 @@ function youCounter() {
                 setTimeout(function () {
 
                     alert("You failed your counter");
-                    $("button").removeAttr("disabled");
+
+                    enableActions();
+
                     winnerCheck();
 
                 }, 1100);
@@ -274,7 +300,8 @@ function enemyAttack() {
         firstCounter = true;
         secondCounter = false;
 
-        $("button").removeAttr("disabled");
+        enableActions();
+
         winnerCheck();
 
     }, 1100);
@@ -287,23 +314,14 @@ function enemyRestore() {
 
     setTimeout(function () {
 
-        secondHealth += secondRestore;
+        performRestore(enemyRestore, "Enemy", enemyHealth, enemyHealthMax, ".enemy-health-progress", ".enemy-health-text");
 
-        if(secondHealth >= secondmaxHealth){
-            secondHealth = secondmaxHealth;
-        }
+        // youEnergy();
 
-        $("#secondProgress").attr("value", secondHealth);
-        $("#sHealthDisplay").text(secondHealth + "/" + secondmaxHealth);
-        alert("The enemy restored " + secondRestore + " health.")
-    
-        if(firstBlindingWhiskers > 0){
-            firstBlindingWhiskers--;
-        }
-    
-        firstCounter = false;
-        secondCounter = false;
-        $("button").removeAttr("disabled");
+        youCounter = false;
+        enemyCounter = false;
+
+        enableActions();
 
         winnerCheck();
 
