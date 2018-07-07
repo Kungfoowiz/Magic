@@ -1,34 +1,48 @@
 
 
-$(function () {
+var game = (function () {
 
-    var collapsible = function (targetElement, collapseWidth, expandedWidth) {
 
-        var target = $(targetElement);
-        var widthCollapsed = collapseWidth;
-        var widthExpanded = expandedWidth;
 
-        var collapseMenu = function () {
-            target.animate({ width: widthCollapsed }, { queue: false, duration: 500 });
-        }
 
-        var expandMenu = function () {
-            target.animate({ width: widthExpanded }, { queue: false, duration: 500 });
-        }
 
-        collapseMenu();
 
-        target.on("mouseover", function () {
-            expandMenu();
-        });
 
-        target.on("mouseout", function () {
+    $(function () {
+
+
+
+        var collapsible = function (targetElement, collapseWidth, expandedWidth) {
+
+            var target = $(targetElement);
+            var widthCollapsed = collapseWidth;
+            var widthExpanded = expandedWidth;
+
+            var collapseMenu = function () {
+                target.animate({ width: widthCollapsed }, { queue: false, duration: 500 });
+            }
+
+            var expandMenu = function () {
+                target.animate({ width: widthExpanded }, { queue: false, duration: 500 });
+            }
+
             collapseMenu();
-        });
 
-    }
+            target.on("mouseover", function () {
+                expandMenu();
+            });
 
-    var audioCollapsible = new collapsible(".audio-control", "20px", "300px");
+            target.on("mouseout", function () {
+                collapseMenu();
+            });
+
+        }
+
+        var audioCollapsible = new collapsible(".audio-control", "20px", "300px");
+
+
+
+    });
 
 
 
@@ -45,324 +59,319 @@ $(function () {
 
 
 
-    var performAttack = function (damage, title, targetHealth, targetHealthMax, targetProgressHealth, targetProgressText) {
-        alert(title + " attack dealing " + damage + " damage.");
 
-        targetHealth -= damage;
+    var performAttack = function (attacker, target) {
+        alert(attacker.title + " attack dealing " + attacker.damage + " damage.");
 
-        if (targetHealth <= 0) {
-            targetHealth = 0;
+        target.health -= attacker.damage;
+
+        if (target.health <= 0) {
+            target.health = 0;
         }
 
-        $(targetProgressHealth).attr("value", targetHealth);
-        $(targetProgressText).text(targetHealth + "/" + targetHealthMax);
+        $(target.healthProgress).attr("value", target.health);
+        $(target.healthText).text(target.health + "/" + target.healthMax);
     }
 
 
 
-    var performRestore = function (restore, title, targetHealth, targetHealthMax, targetProgressHealth, targetProgressText) {
-        alert(title + " restored " + restore + " health.");
+    var performCounter = function (counterer, target) {
+        var damage = counterer.damage * 2;
 
-        targetHealth += restore;
+        alert(counterer.title + " countered dealing " + damage + " damage.");
 
-        if (targetHealth >= targetHealthMax) {
-            targetHealth = targetHealthMax;
+        target.health -= damage;
+
+        if (target.health <= 0) {
+            target.health = 0;
         }
 
-        $(targetProgressHealth).attr("value", targetHealth);
-        $(targetProgressText).text(targetHealth + "/" + targetHealthMax);
+        $(target.healthProgress).attr("value", target.health);
+        $(target.healthText).text(target.health + "/" + target.healthMax);
     }
 
 
 
-    var performCounter = function (damage, title, targetHealth, targetHealthMax, targetProgressHealth, targetProgressText) {
-        damage *= 2;
+    var performRestore = function (target) {
+        alert(target.title + " restored " + target.restoreAmount + " health.");
 
-        alert(title + " countered dealing " + damage + " damage.");
+        target.health += target.restoreAmount;
 
-        targetHealth -= damage;
-
-        if (targetHealth <= 0) {
-            targetHealth = 0;
+        if (target.health >= target.healthMax) {
+            target.health = target.healthMax;
         }
 
-        $(targetProgressHealth).attr("value", targetHealth);
-        $(targetProgressText).text(targetHealth + "/" + targetHealthMax);
+        $(target.healthProgress).attr("value", target.health);
+        $(target.healthText).text(target.health + "/" + target.healthMax);
     }
 
 
 
-});
-
-
-
-var youLife = true;
-
-var youHealth = 100;
-var youHealthMax = 100;
-var youDamage = 10;
-var youRestore = 5;
-
-var youCounter = false;
-var youEnergy = 100;
-var youEnergyRestore = 20;
-
-
-
-var enemyHealth = 100;
-var enemyHealthMax = 100;
-var enemyDamage = 12;
-var enemyRestore = 5;
-
-var enemyCounter = false;
-
-
-
-
-$(function () {
-
-    $(".you-health-progress").attr("value", youHealth);
-    $(".you-health-progress").attr("max", youHealthMax);
-    $(".you-health-text").text(youHealth + "/" + youHealthMax);
-    $(".you-energy-text").text(youHealth);
-
-    $(".enemy-health-progress").attr("value", enemyHealth);
-    $(".enemy-health-progress").attr("max", enemyHealthMax);
-    $(".enemy-health-text").text(enemyHealth + "/" + enemyHealthMax);
-
-});
 
 
 
 
 
+    var you = (function () {
+        var title = "You";
+
+        var life = true;
+
+        var health = 100;
+        var healthMax = 100;
+        var damage = 10;
+        var restoreAmount = 5;
+
+        var counterAllowed = false;
+        var energy = 100;
+        var energyRestore = 20;
+
+        var healthProgress = ".you-health-progress";
+        var healthText = ".you-health-text";
+        var energyText = ".you-energy-text";
+
+        return {
+            title: title,
+
+            life: life,
+
+            health: health,
+            healthMax: healthMax,
+            damage: damage,
+            restoreAmount: restoreAmount,
+
+            counterAllowed: counterAllowed,
+            energy: energy,
+            energyRestore: energyRestore,
+
+            healthProgress: healthProgress,
+            healthText: healthText,
+            energyText: energyText
+        };
+
+    })();
 
 
-function youAttack(){
 
-    if (youLife) {
+    var enemy = (function () {
+        var title = "Enemy";
 
-        disableActions();
+        var health = 100;
+        var healthMax = 100;
+        var damage = 12;
+        var restoreAmount = 5;
+
+        var counterAllowed = false;
+
+        var healthProgress = ".enemy-health-progress";
+        var healthText = ".enemy-health-text";
+
+        return {
+            title: title,
+
+            health: health,
+            healthMax: healthMax,
+            damage: damage,
+            restoreAmount: restoreAmount,
+
+            counterAllowed: counterAllowed,
+
+            healthProgress: healthProgress,
+            healthText: healthText,
+        };
+
+    })();
+
+
+
+
+
+
+
+    $(function () {
+
+
+        $(you.healthProgress).attr("value", you.health);
+        $(you.healthProgress).attr("max", you.healthMax);
+        $(you.healthText).text(you.health + "/" + you.healthMax);
+        $(you.energyText).text(you.health);
+
+
+        $(enemy.healthProgress).attr("value", enemy.health);
+        $(enemy.healthProgress).attr("max", enemy.healthMax);
+        $(enemy.healthText).text(enemy.health + "/" + enemy.healthMax);
+
+
+    });
+
+
+
+
+
+    function youAttack() {
+
+        if (you.life) {
+
+            disableActions();
+
+            setTimeout(function () {
+
+                performAttack(you, enemy);
+
+                enemy.counterAllowed = true;
+                you.counterAllowed = false;
+
+                winnerCheck();
+
+                if (enemy.health > 0) {
+                    enemyMove();
+                }
+
+            }, 1100);
+
+        }
+
+    }
+
+
+
+    function youRestore() {
+
+        if (you.life) {
+
+            disableActions();
+
+            setTimeout(function () {
+
+                performRestore(you);
+
+                youEnergy();
+
+                enemy.counterAllowed = false;
+
+                winnerCheck();
+
+                if (enemy.health > 0) {
+                    enemyMove();
+                }
+            }, 1100);
+
+        }
+
+    }
+
+
+
+    function youEnergy() {
+
+        winnerCheck();
+
+        if (you.life) {
+            you.energy += you.energyRestore;
+            $(you.energyText).text(you.energy);
+
+            alert(you.title + " restored " + you.energyRestore + " energy.");
+        }
+
+    }
+
+
+    function youCounter() {
+
+        if (enemy.health > 0) {
+            enemyMove();
+
+            disableActions();
+        }
+
 
         setTimeout(function () {
 
-            performAttack(youDamage, "You", enemyHealth, enemyHealthMax, ".enemy-health-progress", ".enemy-health-text");
-    
-            enemyCounter = true;
-            youCounter = false;
-    
-            winnerCheck();
-    
-            if(enemyHealth > 0){
-                enemyMove();
+            disableActions();
+
+
+            if (you.life) {
+
+                winnerCheck();
+
+                if (you.counterAllowed) {
+
+
+                    setTimeout(function () {
+
+                        performCounter(you, enemy);
+
+                        enableActions();
+
+                        winnerCheck();
+
+                    }, 1100);
+
+                }
+
+
+                else {
+
+                    setTimeout(function () {
+
+                        alert("You failed your counter");
+
+                        enableActions();
+
+                        winnerCheck();
+
+                    }, 1100);
+
+                }
+
+                you.counterAllowed = false;
+                enemy.counterAllowed = false;
+
             }
 
         }, 1100);
 
-    }
-
-}
-
-
-
-function youRestore(){
-
-    if (youLife) {
-
-        disableActions();
-
-        setTimeout(function () {
-
-            performRestore(youRestore, "You", youHealth, youHealthMax, ".you-health-progress", ".you-health-text");
-    
-            youEnergy();
-    
-            enemyCounter = false;
-    
-            winnerCheck();
-    
-            if(enemyHealth > 0){
-                enemyMove();
-            }
-        }, 1100);
 
     }
 
-}
+
+    //////////////////////////////////
 
 
 
-function youEnergy() {
+    function enemyMove() {
 
-    winnerCheck();
+        winnerCheck();
 
-    if (youLife) {
-        youEnergy += youEnergyRestore;
-        $(".you-energy-text").text(youEnergy);
-
-        alert("You restored " + youEnergyRestore + " energy.");
-    }
-
-}
+        var random = Math.floor(Math.random() * 3);
 
 
-function youCounter() {
-
-    if(enemyHealth > 0){
-        enemyMove();
-
-        disableActions();
-    }
-
-
-    setTimeout(function(){
-
-        disableActions();
-
-
-        if (youLife) {
-
-            winnerCheck();
-
-            if (youCounter) {
-
-
-                setTimeout(function () {
-
-                    performCounter(youDamage, "You", enemyHealth, enemyHealthMax, ".enemy-health-progress", ".enemy-health-text");
-
-                    enableActions();
-
-                    winnerCheck();
-
-                }, 1100);
-
-            }
-
-
-            else {
-
-                setTimeout(function () {
-
-                    alert("You failed your counter");
-
-                    enableActions();
-
-                    winnerCheck();
-
-                }, 1100);
-
-            }
-
-            youCounter = false;
-            enemyCounter = false;
-
+        switch (random) {
+            case 0:
+                enemyAttack();
+                break;
+            case 1:
+                enemyRestore();
+                break;
+            case 2:
+                enemyCounter();
+                break;
         }
 
-    }, 1100);
-
-
-}
-
-
-//////////////////////////////////
-
-
-function enemyMove(){
-
-    winnerCheck();
-
-    var random = Math.floor(Math.random() * 3);
-    
-
-    switch (random) {
-        case 0:
-            enemyAttack();
-            break;
-        case 1:
-            enemyRestore();
-            break;
-        case 2:
-            enemyCounter();
-            break;
     }
 
-}
 
 
-
-function enemyAttack() {
-
-    setTimeout(function () {
-
-        performAttack(enemyDamage, "Enemy", youHealth, youHealthMax, ".you-health-progress", ".you-health-text");
-
-        firstCounter = true;
-        secondCounter = false;
-
-        enableActions();
-
-        winnerCheck();
-
-    }, 1100);
-
-}
-
-
-
-function enemyRestore() {
-
-    setTimeout(function () {
-
-        performRestore(enemyRestore, "Enemy", enemyHealth, enemyHealthMax, ".enemy-health-progress", ".enemy-health-text");
-
-        // youEnergy();
-
-        youCounter = false;
-        enemyCounter = false;
-
-        enableActions();
-
-        winnerCheck();
-
-    }, 1100);
-
-}
-
-
-
-function enemyCounter(){
-
-    if (secondCounter) {
-
-        winnerCheck();
-
-        setTimeout(function(){
-            firstHealth -= (firstDamage * 2);
-            $("#firstProgress").attr("value", firstHealth);
-            $("#fHealthDisplay").text(firstHealth + "/" + firstmaxHealth);
-        
-            alert("Enemy countered dealing " + (firstDamage * 2) + " damage.");
-
-            if (firstFurStack > 0) {
-
-                firstFurStack = 0;
-
-                alert("Your Fur Stack resets");
-            }
-
-            $("button").removeAttr("disabled");
-            winnerCheck();
-        }, 1100);        
-
-    }
-
-    else {
+    function enemyAttack() {
 
         setTimeout(function () {
 
-            alert("Enemy failed his counter");
-            $("button").removeAttr("disabled");
+            performAttack(enemy, you);
+
+            you.counterAllowed = true;
+            enemy.counterAllowed = false;
+
+            enableActions();
 
             winnerCheck();
 
@@ -370,51 +379,132 @@ function enemyCounter(){
 
     }
 
-    secondCounter = false;
-    firstCounter = false;
-    
-    winnerCheck();
-}
 
 
+    function enemyRestore() {
 
+        setTimeout(function () {
 
-////////////////////
+            performRestore(enemy);
 
+            // youEnergy();
 
+            you.counterAllowed = false;
+            enemy.counterAllowed = false;
 
+            enableActions();
 
+            winnerCheck();
 
-function winnerCheck() {
-
-
-    if(youHealth <= 0){
-
-        youHealth = 0;
-        firstLife = false;
-
-        disableActions();
-
-        $("#firstProgress").attr("value", firstHealth);
-        $("#fHealthDisplay").text(firstHealth + "/" + firstmaxHealth);
-
-        alert("Enemy win");
+        }, 1100);
 
     }
 
 
-    if(secondHealth <= 0){
 
-        secondHealth = 0;
+    function enemyCounter() {
 
-        disableActions();
+        if (enemy.counterAllowed) {
 
-        $("#secondProgress").attr("value", secondHealth);
-        $("#sHealthDisplay").text(secondHealth + "/" + secondmaxHealth);
+            winnerCheck();
 
-        alert("You win");
+            setTimeout(function () {
+
+                performCounter(enemy, you);
+
+                enableActions();
+
+                winnerCheck();
+
+            }, 1100);
+
+        }
+
+        else {
+
+            setTimeout(function () {
+
+                alert("Enemy failed his counter");
+
+                enableActions();
+
+                winnerCheck();
+
+            }, 1100);
+
+        }
+
+        you.counterAllowed = false;
+        enemy.counterAllowed = false;
+
+
+        winnerCheck();
 
     }
 
 
-}
+
+
+
+    ////////////////////
+
+
+
+
+    function winnerCheck() {
+
+
+        if (you.health <= 0) {
+
+            you.health = 0;
+            you.life = false;
+
+            disableActions();
+
+            $(you.healthProgress).attr("value", you.health);
+            $(you.healthText).text(you.health + "/" + you.healthMax);
+
+            alert("Enemy win");
+
+        }
+
+
+        if (enemy.health <= 0) {
+
+            enemy.health = 0;
+
+            disableActions();
+
+            $(enemy.healthProgress).attr("value", enemy.health);
+            $(enemy.healthText).text(enemy.health + "/" + enemy.healthMax);
+
+            alert("You win");
+
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+    return {
+
+        youAttack: youAttack,
+        youCounter: youCounter
+
+    };
+
+
+
+
+
+
+
+
+})();
