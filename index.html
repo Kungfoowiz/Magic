@@ -4,9 +4,7 @@
 
 <head>
     <title>Knight vs. Sorceress - Magic Game</title>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css" />
     <script src="logic.js"></script>
 
@@ -18,9 +16,10 @@
 
     <aside class="top-right">
         <i class="fas fa-music audio-symbol"></i>
-        <audio class="audio-control" src="http://soundimage.org/wp-content/uploads/2017/10/8-Bit-Perplexion.mp3" autoplay loop controls></audio>
-        <p>Music by Eric Matyas</p>
-        <p><a href="www.soundimage.org">www.soundimage.org</a></p>
+        <audio class="audio-control" src="https://orig00.deviantart.net/1caa/f/2018/188/8/b/knight_vs_sorceress_game_loop_by_kungfoowiz-dcgjuhf.mp3" 
+               autoplay loop controls></audio>
+        <p>Music by Johara Davies</p>
+        <p><a href="https://soundcloud.com/user-875366302">Johara's SoundCloud</a></p>
     </aside>
 
 
@@ -58,8 +57,8 @@
 
     <aside class="small">
 
-        <a onclick="youAttack()" class="action" title="ATTACK!"><i class="fas fa-skull icon"></i></a>
-        <a onclick="youCounter()" class="action counter" title="COUNTER"><i class="fas fa-user-shield icon"></i></a>
+        <a onclick="game.youAttack();" class="action" title="ATTACK!"><i class="fas fa-skull icon"></i></a>
+        <a onclick="game.youCounter();" class="action counter" title="COUNTER"><i class="fas fa-user-shield icon"></i></a>
 
         <p style="margin: 3px; margin-top: 10px;">Spells:</p>
     </aside>
