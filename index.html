@@ -3,10 +3,11 @@
 <html>
 
 <head>
-    <title>Knight vs. Sorceress - Magic Game</title>
+    <title>Knight Vs. Sorceress - A Magic Game</title>
     <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css" />
     <script src="logic.js"></script>
+    <script src="collapsible.js"></script>
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" 
           integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
@@ -25,7 +26,7 @@
 
     <header>
         <h1>Knight Vs. Sorceress - A Magic Game</h1>
-        <h3>This is a work in progress game ... =)</h3>
+        <h3>An evil sorceress just moved in. It's your job to move her out!  A work in progress game =)</h3>
     </header>
 
 
@@ -57,10 +58,22 @@
 
     <aside class="small">
 
-        <a onclick="game.youAttack();" class="action" title="ATTACK!"><i class="fas fa-skull icon"></i></a>
-        <a onclick="game.youCounter();" class="action counter" title="COUNTER"><i class="fas fa-user-shield icon"></i></a>
+        <button onclick="game.youAttack();" class="action attack">
+            <i class="fas fa-skull icon"></i>
+            <span class="tooltip">Your attack will deal a normal damage of 10 to your enemy. Your enemy can inflict a normal damage of 12.</span>
+        </button>
 
-        <p style="margin: 3px; margin-top: 10px;">Spells:</p>
+        <button onclick="game.youCounter();" class="action counter">
+            <i class="fas fa-user-shield icon"></i>
+            <span class="tooltip">Counter delivers a riposte attack dealing double damage of 20 to your enemy. Your enemy can counter with double damage of 24.</span>
+        </button>
+
+        <button onclick="game.youRestore();" class="action restore">
+            <i class="fas fa-heart icon"></i>
+            <span class="tooltip">Restoring heals you with 5 health. Your enemy can heal the same.</span>
+        </button>
+
+        <!--<p style="margin: 3px; margin-top: 10px;">Spells:</p>-->
     </aside>
 
 </body>
