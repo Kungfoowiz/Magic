@@ -1,45 +1,27 @@
 
 
 var game = (function () {
+    
 
 
 
 
 
-
+    // Initialisation.
 
     $(function () {
 
 
 
-        var collapsible = function (targetElement, collapseWidth, expandedWidth) {
+        $(you.healthProgress).attr("value", you.health);
+        $(you.healthProgress).attr("max", you.healthMax);
+        $(you.healthText).text(you.health + "/" + you.healthMax);
+        $(you.energyText).text(you.health);
 
-            var target = $(targetElement);
-            var widthCollapsed = collapseWidth;
-            var widthExpanded = expandedWidth;
 
-            var collapseMenu = function () {
-                target.animate({ width: widthCollapsed }, { queue: false, duration: 500 });
-            }
-
-            var expandMenu = function () {
-                target.animate({ width: widthExpanded }, { queue: false, duration: 500 });
-            }
-
-            collapseMenu();
-
-            target.on("mouseover", function () {
-                expandMenu();
-            });
-
-            target.on("mouseout", function () {
-                collapseMenu();
-            });
-
-        }
-
-        var audioCollapsible = new collapsible(".audio-control", "20px", "300px");
-
+        $(enemy.healthProgress).attr("value", enemy.health);
+        $(enemy.healthProgress).attr("max", enemy.healthMax);
+        $(enemy.healthText).text(enemy.health + "/" + enemy.healthMax);
 
 
     });
@@ -47,6 +29,93 @@ var game = (function () {
 
 
 
+
+
+
+    // Game objects.
+
+    var you = (function () {
+        var title = "You";
+
+        var life = true;
+
+        var health = 100;
+        var healthMax = 100;
+        var damage = 10;
+        var restoreAmount = 5;
+
+        var counterAllowed = false;
+        var energy = 100;
+        var energyRestore = 20;
+
+        var healthProgress = ".you-health-progress";
+        var healthText = ".you-health-text";
+        var energyText = ".you-energy-text";
+
+        return {
+            title: title,
+
+            life: life,
+
+            health: health,
+            healthMax: healthMax,
+            damage: damage,
+            restoreAmount: restoreAmount,
+
+            counterAllowed: counterAllowed,
+            energy: energy,
+            energyRestore: energyRestore,
+
+            healthProgress: healthProgress,
+            healthText: healthText,
+            energyText: energyText
+        };
+
+    })();
+
+
+
+
+
+    var enemy = (function () {
+        var title = "Enemy";
+
+        var health = 100;
+        var healthMax = 100;
+        var damage = 12;
+        var restoreAmount = 5;
+
+        var counterAllowed = false;
+
+        var healthProgress = ".enemy-health-progress";
+        var healthText = ".enemy-health-text";
+
+        return {
+            title: title,
+
+            health: health,
+            healthMax: healthMax,
+            damage: damage,
+            restoreAmount: restoreAmount,
+
+            counterAllowed: counterAllowed,
+
+            healthProgress: healthProgress,
+            healthText: healthText,
+        };
+
+    })();
+
+
+
+
+
+
+
+
+
+
+    // Game logic.
 
     var disableActions = function () {
         $(".action").attr("disabled", "disabled");
@@ -56,7 +125,7 @@ var game = (function () {
         $(".action").removeAttr("disabled");
     }
 
-
+    
 
 
 
@@ -108,79 +177,39 @@ var game = (function () {
 
 
 
+    var winnerCheck = function () {
 
 
+        if (you.health <= 0) {
+
+            you.health = 0;
+            you.life = false;
+
+            disableActions();
+
+            $(you.healthProgress).attr("value", you.health);
+            $(you.healthText).text(you.health + "/" + you.healthMax);
+
+            alert("Enemy win");
+
+        }
 
 
-    var you = (function () {
-        var title = "You";
+        if (enemy.health <= 0) {
 
-        var life = true;
+            enemy.health = 0;
 
-        var health = 100;
-        var healthMax = 100;
-        var damage = 10;
-        var restoreAmount = 5;
+            disableActions();
 
-        var counterAllowed = false;
-        var energy = 100;
-        var energyRestore = 20;
+            $(enemy.healthProgress).attr("value", enemy.health);
+            $(enemy.healthText).text(enemy.health + "/" + enemy.healthMax);
 
-        var healthProgress = ".you-health-progress";
-        var healthText = ".you-health-text";
-        var energyText = ".you-energy-text";
+            alert("You win");
 
-        return {
-            title: title,
-
-            life: life,
-
-            health: health,
-            healthMax: healthMax,
-            damage: damage,
-            restoreAmount: restoreAmount,
-
-            counterAllowed: counterAllowed,
-            energy: energy,
-            energyRestore: energyRestore,
-
-            healthProgress: healthProgress,
-            healthText: healthText,
-            energyText: energyText
-        };
-
-    })();
+        }
 
 
-
-    var enemy = (function () {
-        var title = "Enemy";
-
-        var health = 100;
-        var healthMax = 100;
-        var damage = 12;
-        var restoreAmount = 5;
-
-        var counterAllowed = false;
-
-        var healthProgress = ".enemy-health-progress";
-        var healthText = ".enemy-health-text";
-
-        return {
-            title: title,
-
-            health: health,
-            healthMax: healthMax,
-            damage: damage,
-            restoreAmount: restoreAmount,
-
-            counterAllowed: counterAllowed,
-
-            healthProgress: healthProgress,
-            healthText: healthText,
-        };
-
-    })();
+    }
 
 
 
@@ -188,25 +217,12 @@ var game = (function () {
 
 
 
-    $(function () {
-
-
-        $(you.healthProgress).attr("value", you.health);
-        $(you.healthProgress).attr("max", you.healthMax);
-        $(you.healthText).text(you.health + "/" + you.healthMax);
-        $(you.energyText).text(you.health);
-
-
-        $(enemy.healthProgress).attr("value", enemy.health);
-        $(enemy.healthProgress).attr("max", enemy.healthMax);
-        $(enemy.healthText).text(enemy.health + "/" + enemy.healthMax);
-
-
-    });
 
 
 
 
+
+    // Player actions.
 
     function youAttack() {
 
@@ -245,7 +261,7 @@ var game = (function () {
 
                 performRestore(you);
 
-                youEnergy();
+                //youEnergy();
 
                 enemy.counterAllowed = false;
 
@@ -274,6 +290,7 @@ var game = (function () {
         }
 
     }
+
 
 
     function youCounter() {
@@ -335,9 +352,14 @@ var game = (function () {
     }
 
 
-    //////////////////////////////////
 
 
+
+
+
+
+
+    // Enemy actions.
 
     function enemyMove() {
 
@@ -386,8 +408,6 @@ var game = (function () {
         setTimeout(function () {
 
             performRestore(enemy);
-
-            // youEnergy();
 
             you.counterAllowed = false;
             enemy.counterAllowed = false;
@@ -446,44 +466,7 @@ var game = (function () {
 
 
 
-    ////////////////////
-
-
-
-
-    function winnerCheck() {
-
-
-        if (you.health <= 0) {
-
-            you.health = 0;
-            you.life = false;
-
-            disableActions();
-
-            $(you.healthProgress).attr("value", you.health);
-            $(you.healthText).text(you.health + "/" + you.healthMax);
-
-            alert("Enemy win");
-
-        }
-
-
-        if (enemy.health <= 0) {
-
-            enemy.health = 0;
-
-            disableActions();
-
-            $(enemy.healthProgress).attr("value", enemy.health);
-            $(enemy.healthText).text(enemy.health + "/" + enemy.healthMax);
-
-            alert("You win");
-
-        }
-
-
-    }
+    
 
 
 
@@ -492,11 +475,12 @@ var game = (function () {
 
 
 
-
+    // Public functions.
     return {
 
         youAttack: youAttack,
-        youCounter: youCounter
+        youCounter: youCounter,
+        youRestore: youRestore
 
     };
 
@@ -508,3 +492,14 @@ var game = (function () {
 
 
 })();
+
+
+
+
+
+
+
+
+
+
+

@@ -13,7 +13,6 @@ body{
 header {
     width: 100%;
     text-align: center;
-    font-size: 75px;
     margin-top: 10px;
     margin-bottom: 10px;
     font-family: 'Century Gothic', 'Times New Roman', Times, serif;
@@ -27,11 +26,11 @@ h1, h3 {
 }
 
 h1 {
-    font-size: 50px;
+    font-size: 20px;
 }
 
 h3 {
-    font-size: 17px;
+    font-size: 9px;
 }
 
 .main {
@@ -75,7 +74,7 @@ h3 {
     margin: auto;
     border: 17px dotted #262207;
     text-align: center;
-    width: 250px;
+    width: 450px;
     padding: 10px;
 }
 
@@ -110,51 +109,85 @@ img {
 
 progress {
     width: 100px;
-    background-color: #fc5630 !important;
+    background-color: #fc5630;
 }
 
 progress::-webkit-progress-value {
-    background-color: #fc5630 !important;
+    background-color: #fc5630;
+}
+
+.action {
+    color: #262207;
+    background: transparent;
+    border: none;
+    outline: none;
+    
+    position: relative;
 }
 
 .action .icon {
     font-size: 75px;
 }
 
-.counter :hover {
+/*.action:active, .action[disabled="disabled"]:active {
+    background: transparent;
+    border: none;
+    outline: none;
+}*/
+
+.attack:not([disabled="disabled"]) :hover {
+    color: #ff1616;
+}
+
+.counter:not([disabled="disabled"]) :hover {
     color: #b1ea21;
 }
 
-#fHealthDisplay{
-    margin-left: 53px;
-    margin-top: 0;
+.restore:not([disabled="disabled"]) :hover {
+    color: #b22730;
 }
 
-#sHealthDisplay{
-    margin-right: 40px;
-    margin-top: 0;
-}
-
-#instructionButton{
-    width: 90px;
-}
-
-#insButtonContainer{
-    margin: 10px auto 10px auto;
-    width: 90px;
-    padding-left: 200px;
-}
-
-span{
+span {
     font-weight: bold;
-}
-
-button:active{
-    font-weight: bold;
-    background-color: #fff;
-    
 }
 
 img{
     position: relative;
 }
+
+.tooltip {
+
+    top: -150px;
+
+    position: absolute;
+    visibility: hidden;
+
+    width: 240px;
+
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    font-weight: normal;
+
+    padding: 5px;
+    border-radius: 6px;
+    
+    z-index: 1;
+
+    opacity: 0;
+
+    transition: opacity 0.6s;
+}
+
+.action:hover .tooltip {
+    visibility: visible;
+
+    opacity: 1.0;
+}
+
+
+
+
+
+
+
