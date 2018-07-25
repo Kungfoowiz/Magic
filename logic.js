@@ -13,6 +13,7 @@ var game = (function () {
 
 
 
+
         $(you.healthProgress).attr("value", you.health);
         $(you.healthProgress).attr("max", you.healthMax);
         $(you.healthText).text(you.health + "/" + you.healthMax);
@@ -22,6 +23,8 @@ var game = (function () {
         $(enemy.healthProgress).attr("value", enemy.health);
         $(enemy.healthProgress).attr("max", enemy.healthMax);
         $(enemy.healthText).text(enemy.health + "/" + enemy.healthMax);
+
+
 
 
     });
