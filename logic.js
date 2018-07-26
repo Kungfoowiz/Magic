@@ -11,7 +11,9 @@ var game = (function () {
 
     $(function () {
 
-
+        $(".start-game").on("click", function () {
+            $("html, body").animate({ scrollTop: $(".controls").offset().top }, 2000);
+        });
 
 
         $(you.healthProgress).attr("value", you.health);
