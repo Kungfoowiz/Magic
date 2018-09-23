@@ -219,6 +219,32 @@ var game = (function () {
 
 
 
+    var castSwordSpell = function (target, spellNoteSuccess, spellNoteFail) {
+        target.energy -= 100;
+        $(target.energyText).text(target.energy);
+
+        var random = Math.floor(Math.random() * 2);
+
+        if (random == 0) {
+            target.damage *= 3;
+
+            alert(spellNoteSuccess);
+        }
+        else {
+            target.health /= 2;
+
+            if (target.health <= 0) {
+                target.health = 0;
+            }
+
+            $(target.healthProgress).attr("value", target.health);
+            $(target.healthText).text(target.health + "/" + target.healthMax);
+
+            alert(spellNoteFail);
+        }
+    }
+
+
 
 
 
@@ -359,6 +385,37 @@ var game = (function () {
 
 
 
+    function youCastHolyBladeSpell() {
+
+        if (you.life) {
+
+            disableActions();
+
+            setTimeout(function () {
+
+                castSwordSpell(
+                    you,
+                    you.title + " cast Holy Blade spell imbuing your sword with blistering holy energy. Your sword is now three times more powerful!",
+                    you.title + " failed to cast Holy Blade spell! You are left weakened and half your health points have been drained..."
+                );
+
+                enemy.counterAllowed = false;
+
+                winnerCheck();
+
+                if (enemy.health > 0) {
+                    enemyMove();
+                }
+            }, 1100);
+
+        }
+
+    }
+
+
+
+
+
 
 
 
@@ -371,7 +428,6 @@ var game = (function () {
         winnerCheck();
 
         var random = Math.floor(Math.random() * 3);
-
 
         switch (random) {
             case 0:
@@ -485,7 +541,8 @@ var game = (function () {
 
         youAttack: youAttack,
         youCounter: youCounter,
-        youRestore: youRestore
+        youRestore: youRestore,
+        youCastHolyBladeSpell: youCastHolyBladeSpell
 
     };
 
