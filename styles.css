@@ -60,11 +60,11 @@ h3 {
 
 .main {
     position: relative;
-    height: 405px;
     width: 720px;
+    height: 405px;
     margin: auto;
     margin-bottom: 20px;
-    background-image: url(https://78.media.tumblr.com/ba3f2c68c65ecca84afb4fd8623e314e/tumblr_nt8u4mLNug1tah9pwo2_1280.png);
+    background-image: url(https://orig00.deviantart.net/c32a/f/2018/265/b/d/game_background3_by_kungfoowiz-dcniswj.jpg);
     color: white;
     text-shadow: 3px 3px 3px #edbe27;
 }
@@ -178,6 +178,10 @@ progress {
 
 .restore:not([disabled="disabled"]) :hover {
     color: #b22730;
+}
+
+.castholybladespell:not([disabled="disabled"]) :hover {
+    color: #ffffaf;
 }
 
 span {
