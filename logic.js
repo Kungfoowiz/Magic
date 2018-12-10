@@ -12,7 +12,7 @@ var game = (function () {
     $(function () {
 
         $(".start-game").on("click", function () {
-            $("html, body").animate({ scrollTop: $(".controls").offset().top }, 2000);
+            $("html, body").animate({ scrollTop: $("header").offset().top }, 4000);
         });
 
 
@@ -130,6 +130,45 @@ var game = (function () {
         $(".action").removeAttr("disabled");
     }
 
+
+
+
+    var restartGame = function(){
+
+        enableActions();
+
+        you.life = true;
+
+        you.health = 100;
+        you.healthMax = 100;
+        you.damage = 10;
+        you.restoreAmount = 5;
+
+        you.counterAllowed = false;
+        you.energy = 100;
+        you.energyRestore = 20;
+
+
+      
+        enemy.health = 100;
+        enemy.healthMax = 100;
+        enemy.damage = 12;
+        enemy.restoreAmount = 5;
+
+        enemy.counterAllowed = false;
+
+        $(you.healthProgress).attr("value", you.health);
+        $(you.healthProgress).attr("max", you.healthMax);
+        $(you.healthText).text(you.health + "/" + you.healthMax);
+        $(you.energyText).text(you.health);
+
+
+        $(enemy.healthProgress).attr("value", enemy.health);
+        $(enemy.healthProgress).attr("max", enemy.healthMax);
+        $(enemy.healthText).text(enemy.health + "/" + enemy.healthMax);
+
+    }
+
     
 
 
@@ -220,6 +259,13 @@ var game = (function () {
 
 
     var castSwordSpell = function (target, spellNoteSuccess, spellNoteFail) {
+
+        if(target.energy < 100){
+            alert("Not enough energy to cast this sword spell...");
+
+            return;
+        }
+
         target.energy -= 100;
         $(target.energyText).text(target.energy);
 
@@ -542,7 +588,8 @@ var game = (function () {
         youAttack: youAttack,
         youCounter: youCounter,
         youRestore: youRestore,
-        youCastHolyBladeSpell: youCastHolyBladeSpell
+        youCastHolyBladeSpell: youCastHolyBladeSpell,
+        restartGame : restartGame
 
     };
 

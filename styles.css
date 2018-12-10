@@ -148,7 +148,7 @@ progress {
         background-color: #fc5630;
     }
 
-.action {
+.action, .game-action {
     color: #262207;
     background: transparent;
     border: none;
@@ -158,7 +158,9 @@ progress {
     font-family: sans-serif;
 }
 
-.action .icon {
+.action .icon, .game-action .icon {
+    margin-top: 10px;
+
     font-size: 75px;
 }
 
@@ -182,6 +184,10 @@ progress {
 
 .castholybladespell:not([disabled="disabled"]) :hover {
     color: #ffffaf;
+}
+
+.restartgame :hover {
+    color: #e1f00b;
 }
 
 span {
