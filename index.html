@@ -3,7 +3,7 @@
 <html>
 
 <head>
-    <title>Knight Vs. Sorceress - A Magic Game</title>
+    <title>The Realm of Aiiee - A Game of Magic</title>
 
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
     <link rel="stylesheet" type="text/css" href="styles.css" />
@@ -24,76 +24,128 @@
         <img src="https://orig00.deviantart.net/2675/f/2018/205/5/8/magic_background_by_kungfoowiz-dci7lzw.jpg" />
     </aside>
 
-    <aside class="top-right">
-        <i class="fas fa-music audio-symbol"></i>
-        <audio class="audio-control" src="https://orig00.deviantart.net/1caa/f/2018/188/8/b/knight_vs_sorceress_game_loop_by_kungfoowiz-dcgjuhf.mp3" 
-               autoplay loop controls></audio>
-        <p>Music by Johara Davies</p>
-        <p><a href="https://soundcloud.com/user-875366302">Johara's SoundCloud</a></p>
-    </aside>
+
+    <div class="gameboard">
+
+        <aside class="top-right">
+            <i class="fas fa-music audio-symbol"></i>
+            
+            <audio 
+                class="audio-control" 
+                src="https://orig00.deviantart.net/1caa/f/2018/188/8/b/knight_vs_sorceress_game_loop_by_kungfoowiz-dcgjuhf.mp3" 
+                loop controls>
+            </audio>
+            
+            <p>Music by Johara Davies</p>
+            <p><a href="https://soundcloud.com/user-875366302">Johara's SoundCloud</a></p>
+
+            <audio class="audio-attack" 
+                src="https://www.dropbox.com/s/p07jmg0so7rkg7v/Attack.mp3?dl=1">
+            </audio>
+
+            <audio class="audio-riposte" 
+                src="https://www.dropbox.com/s/8iaoe4zpbdlvyao/Riposte.wav?dl=1">
+            </audio>
+
+            <p>Drink sound by dersuperanton freesound.org</p>
+            <audio class="audio-restore" 
+                src="https://www.dropbox.com/s/81u8mpp2bbr5vgm/Potion.wav?dl=1">
+            </audio>
+
+            <p>Blade spell sound by timbre freesound.org</p>
+            <audio class="audio-bladespell" 
+                src="https://www.dropbox.com/s/ibdvzp6q9jhbs7k/Bladespell.mp3?dl=1">
+            </audio>
+
+            <p>Chain sound by ani_music freesound.org</p>
+            <audio class="audio-chain" 
+                src="https://www.dropbox.com/s/otlujf41absg5l6/Chain.mp3?dl=1">
+            </audio>
+
+            <p>Page turn sound by esperri freesound.org</p>
+            <audio class="audio-pageturn" 
+                src="https://www.dropbox.com/s/npt3uq0iomqnwkc/PageTurn.mp3?dl=1">
+            </audio>
+
+            <audio class="audio-lost" 
+                src="https://www.dropbox.com/s/cniphv0mdu6og4a/Lost.mp3?dl=1">
+            </audio>
+
+            <audio class="audio-cheer" 
+                src="https://www.dropbox.com/s/dqa1q15c6uclekp/Cheer.mp3?dl=1">
+            </audio>
+
+        
+
+        </aside>
 
 
-    <header>
-        <h1>Knight Vs. Sorceress - A Magic Game</h1>
-        <h3>An evil sorceress just moved in. It's your job to move her out!  A work in progress game =)</h3>
-    </header>
+        <header>
+            <h1>The Realm of Aiiee - A Game of Magic</h1>
+            <h3>An evil sorceress just moved in. It's your job to move her out!  A work in progress game =)</h3>
+        </header>
 
 
-    <article class="main">
+        <article class="main">
 
-        <div class="knight">
-            <span>You: </span>
-            <progress class="you-health-progress"></progress>
-            <p class="you-health-text"></p>
-            <p>Energy: <span class="you-energy-text"></span></p>
+            <div class="knight">
+                <span>You: </span>
+                <progress class="you-health-progress"></progress>
+                <p class="you-health-text"></p>
+                <p>Energy: <span class="you-energy-text"></span></p>
 
-            <div class="you">
-                <img src="https://orig00.deviantart.net/3669/f/2018/178/5/8/knight_3_idle_anim_by_kungfoowiz-dcfn8e7.gif" />
+                <div class="you">
+                    <!-- <img src="https://orig00.deviantart.net/3669/f/2018/178/5/8/knight_3_idle_anim_by_kungfoowiz-dcfn8e7.gif" /> -->
+                    <img src="https://www.dropbox.com/s/dx91xmoxzkqnbrf/KnightSilo.png?dl=1" />
+                </div>
             </div>
-        </div>
 
-        <div class="sorceress">
-            <span>Enemy: </span>
-            <progress class="enemy-health-progress"></progress>
-            <p class="enemy-health-text"></p>
+            <div class="sorceress">
+                <span>Enemy: </span>
+                <progress class="enemy-health-progress"></progress>
+                <p class="enemy-health-text"></p>
+                <p>Energy: <span class="enemy-energy-text"></span></p>
 
-            <div class="enemy">
-                <img src="https://orig00.deviantart.net/56d7/f/2018/178/c/d/sorcerer_villain_anim_by_kungfoowiz-dcfn85l.gif" />
+                <div class="enemy">
+                    <!-- <img src="https://orig00.deviantart.net/56d7/f/2018/178/c/d/sorcerer_villain_anim_by_kungfoowiz-dcfn85l.gif" /> -->
+                    <img src="https://www.dropbox.com/s/9c5x17coag5vnay/GoblinSilo.png?dl=1" />
+                </div>
             </div>
-        </div>
 
-    </article>
+        </article>
 
 
-    <aside class="small controls">
+        <aside class="small controls">
 
-        <button onclick="game.youAttack();" class="action attack">
-            <i class="fas fa-skull icon"></i>
-            <span class="tooltip">Your attack will deal a normal damage of 10 to your enemy. Your enemy can inflict a normal damage of 12.</span>
-        </button>
+            <button onclick="game.youAttack();" class="action attack">
+                <i class="fas fa-skull icon"></i>
+                <span class="tooltip">Your attack will deal a normal damage of 10 to your enemy. Your enemy can inflict a normal damage of 8.</span>
+            </button>
 
-        <button onclick="game.youCounter();" class="action counter">
-            <i class="fas fa-user-shield icon"></i>
-            <span class="tooltip">Counter delivers a riposte attack dealing double damage of 20 to your enemy. Your enemy can counter with double damage of 24.</span>
-        </button>
+            <button onclick="game.youCounter();" class="action counter">
+                <i class="fas fa-user-shield icon"></i>
+                <span class="tooltip">Counter delivers a riposte attack dealing double damage.</span>
+            </button>
 
-        <button onclick="game.youRestore();" class="action restore">
-            <i class="fas fa-heart icon"></i>
-            <span class="tooltip">Restoring heals you with 5 health. Your enemy can heal the same.</span>
-        </button>
+            <button onclick="game.youRestore();" class="action restore">
+                <i class="fas fa-heart icon"></i>
+                <span class="tooltip">Restore 15 health and 20 energy.</span>
+            </button>
 
-        <button onclick="game.youCastHolyBladeSpell();" class="action castholybladespell">
-            <i class="fas fa-magic icon"></i>
-            <span class="tooltip">Casting the Holy Blade spell will imbue your sword to make it three times more powerful. The spell has a 50% chance to fail and will drain half your health points.</span>
-        </button>
+            <button onclick="game.youCastHolyBladeSpell();" class="action castholybladespell">
+                <i class="fas fa-magic icon"></i>
+                <span class="tooltip">Casting Holy Blade spell imbues your sword, making it thrice more powerful, the spell has 50% chance to fail, draining half your health points.</span>
+            </button>
 
-        <button onclick="game.restartGame();" class="game-action restartgame">
-            <i class="fas fa-redo icon"></i>
-            <span class="tooltip">Restart your game.</span>
-        </button>
+            <button onclick="game.restartGame();" class="game-action restartgame">
+                <i class="fas fa-redo icon"></i>
+                <span class="tooltip">Restart your game.</span>
+            </button>
 
-        <!--<p style="margin: 3px; margin-top: 10px;">Spells:</p>-->
-    </aside>
+            <!--<p style="margin: 3px; margin-top: 10px;">Spells:</p>-->
+        </aside>
+
+    </div>
 
 </body>
 

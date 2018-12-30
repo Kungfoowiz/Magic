@@ -10,6 +10,12 @@ body {
 
 .splash {
     position: relative;
+
+    width: 100%;
+}
+
+.gameboard {
+    display: none;
 }
 
 .splash .start-game {
@@ -74,7 +80,7 @@ h3 {
 }
 
 .enemy {
-    width: 200px;
+    width: 100px;
 }
 
 .knight {
@@ -97,7 +103,7 @@ h3 {
 
 .small {
     margin: auto;
-    border: 17px dotted #262207;
+    border: 9px solid #262207;
     text-align: center;
     width: 450px;
     padding: 10px;
@@ -161,7 +167,7 @@ progress {
 .action .icon, .game-action .icon {
     margin-top: 10px;
 
-    font-size: 75px;
+    font-size: 20px;
 }
 
 /*.action:active, .action[disabled="disabled"]:active {
@@ -214,7 +220,7 @@ img {
     transition: opacity 0.6s;
 }
 
-.action:hover .tooltip {
+.action:hover .tooltip, .game-action:hover .tooltip {
     visibility: visible;
     opacity: 1.0;
 }
