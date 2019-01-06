@@ -16,11 +16,11 @@ var game = (function () {
 
     const enemyHealth = 80;
     const enemyHealthMax = 80;
-    const enemyDamage = 8;
-    const enemyRestoreAmount = 7;
+    const enemyDamage = 11;
+    const enemyRestoreAmount = 12;
     const enemyEnergy = 30;
     const enemyEnergyMax = 30;
-    const enemyEnergyRestore = 5;
+    const enemyEnergyRestore = 10;
 
 
     // Initialisation.
