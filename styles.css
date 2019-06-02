@@ -9,6 +9,15 @@ html, body {
     height: 100%;
 }
 
+.whatever {
+
+    height: 60px;
+    width: 300px;
+
+    overflow-y: auto;
+    
+}
+
 .splash {
     width: 100%;
     height: 100%;
@@ -56,7 +65,7 @@ header {
     color: #262207;
 }
 
-h1, h3 {
+h1, h3, .whatever {
     margin: 10px;
     font-family: 'Century Gothic', 'Times New Roman', Times, serif !important;
     color: #262207;
@@ -66,7 +75,7 @@ h1 {
     font-size: 20px;
 }
 
-h3 {
+h3, .whatever {
     font-size: 9px;
 }
 

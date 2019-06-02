@@ -1,11 +1,9 @@
 
 
-var game = (function () {
+var game = (function () 
+{
+    var version = 1.002;
 
-    var version = 1.001;
-
-
-    
     const youHealth = 100;
     const youHealthMax = 100;
     const youDamage = 10;
@@ -25,12 +23,12 @@ var game = (function () {
 
     // Initialisation.
 
-    $(function () {
-
+    $(function() 
+    {
         $(".whatever").fadeOut();
 
-        $(".start-game").on("click", function () {
-
+        $(".start-game").on("click", function() 
+        {
             $(".splash").fadeOut();
 
             $(".gameboard").fadeIn();
@@ -39,8 +37,8 @@ var game = (function () {
             
             document.getElementsByClassName("audio-control")[0].play();
 
+            $(".whatever").fadeIn();
         });
-
 
         resetCreature(you, youHealthMax, youDamage, youRestoreAmount, youEnergyMax, youEnergyRestore, 
             ".you-health-progress", ".you-health-text", ".you-energy-text", ".you--title", 
@@ -51,21 +49,22 @@ var game = (function () {
             ".enemy--avatar img", "https://www.dropbox.com/s/9c5x17coag5vnay/GoblinSilo.png?dl=1");
 
         enemy.usedFireBladeSpell = false;
-
     });
 
 
 
 
 
+    
+
+
 
 
     // Game objects.
 
-    var you = (function () {
+    var you = (function() 
+    {
         var title = "Knight (Level 1)";
-
-        var life = true;
 
         var health = youHealth;
         var healthMax = youHealthMax;
@@ -84,8 +83,6 @@ var game = (function () {
 
         return {
             title: title,
-
-            life: life,
 
             health: health,
             healthMax: healthMax,
@@ -109,7 +106,8 @@ var game = (function () {
 
 
 
-    var enemy = (function () {
+    var enemy = (function() 
+    {
         var title = "Goblin (Effortless)";
 
         var health = enemyHealth;
@@ -163,22 +161,118 @@ var game = (function () {
 
     // Game logic.
 
-    var disableActions = function () {
+
+
+    var isGameOver = function ()
+    {
+        var gameOver = false;
+
+        if (you.health <= 0) 
+        {
+            document.getElementsByClassName("audio-lost")[0].play();
+
+            you.health = 0;
+
+            $(you.healthProgress).attr("value", you.health);
+            $(you.healthText).text(you.health + "/" + you.healthMax);
+
+            gameOver = true;
+        }
+
+        if (enemy.health <= 0) 
+        {
+            document.getElementsByClassName("audio-cheer")[0].play();
+
+            enemy.health = 0;
+
+            $(enemy.healthProgress).attr("value", enemy.health);
+            $(enemy.healthText).text(enemy.health + "/" + enemy.healthMax);
+
+            gameOver = true;
+        }
+
+        return gameOver;
+    }
+
+
+
+    var progressGame = function(allowEnemyMove = true)
+    {
+        if(isGameOver() === false)
+        {
+            if(allowEnemyMove === true)
+            {
+                enemyMove();
+            }
+        }
+
+        if(isGameOver() === true)
+        {
+            if(you.health <= 0)
+            {
+                addGameLog("You died!");
+            }
+
+            if(enemy.health <= 0)
+            {
+                addGameLog(enemy.title + " died!");   
+            }
+        }
+        else
+        {
+            enableActions();
+        }
+    }
+
+
+
+    // Add game log entry.
+    var addGameLog = function( text )
+    {
+        var li = document.createElement("li");
+        li.appendChild(document.createTextNode(text));
+        var ul = document.getElementsByClassName("gamelog")[0];
+        
+        ul.insertBefore(li, ul.childNodes[0]);
+    }
+
+
+
+    var resetGameLog = function()
+    {
+        var ul = document.getElementsByClassName("gamelog")[0];
+        var li = ul.lastElementChild;
+
+        while(li)
+        {
+            ul.removeChild(li);
+
+            li = ul.lastElementChild;
+        }
+    }
+
+
+
+    var disableActions = function () 
+    {
+        $(".action").fadeTo(100, 0.2);
         $(".action").attr("disabled", "disabled");
     }
 
-    var enableActions = function () {
+    
+
+    var enableActions = function () 
+    {
+        $(".action").fadeTo(50, 1.0);
         $(".action").removeAttr("disabled");
     }
 
 
 
 
-    var restartGame = function(){
-
+    var restartGame = function()
+    {
         document.getElementsByClassName("audio-chain")[0].play();
-
-        enableActions();
 
         resetCreature(you, youHealthMax, youDamage, youRestoreAmount, youEnergyMax, youEnergyRestore, 
             ".you-health-progress", ".you-health-text", ".you-energy-text", ".you--title", 
@@ -193,6 +287,11 @@ var game = (function () {
 
         $(".splash").fadeIn();
 
+        $(".whatever").fadeOut();
+
+        resetGameLog();
+
+        enableActions();
     }
 
 
@@ -220,11 +319,11 @@ var game = (function () {
 
 
 
-    var performAttack = function (attacker, target) {
-        
+    var performAttack = function (attacker, target) 
+    {    
         document.getElementsByClassName("audio-attack")[0].play();
         
-        alert(attacker.title + " attack dealing " + attacker.damage + " damage.");
+        addGameLog(attacker.title + " attack dealing " + attacker.damage + " damage.");
 
         target.health -= attacker.damage;
 
@@ -234,36 +333,36 @@ var game = (function () {
 
         $(target.healthProgress).attr("value", target.health);
         $(target.healthText).text(target.health + "/" + target.healthMax);
-
     }
 
 
 
-    var performCounter = function (counterer, target) {
-
+    var performCounter = function (counterer, target) 
+    {
         document.getElementsByClassName("audio-riposte")[0].play();
         
         var damage = counterer.damage * 2;
 
-        alert(counterer.title + " countered dealing " + damage + " damage.");
+        addGameLog(counterer.title + " countered dealing " + damage + " damage.");
 
         target.health -= damage;
 
-        if (target.health <= 0) {
+        if (target.health <= 0) 
+        {
             target.health = 0;
         }
 
         $(target.healthProgress).attr("value", target.health);
         $(target.healthText).text(target.health + "/" + target.healthMax);
-
     }
 
 
 
-    var performRestore = function (target) {
+    var performRestore = function (target) 
+    {
         document.getElementsByClassName("audio-restore")[0].play();
 
-        alert(target.title + " restored " + target.restoreAmount + " health and " + target.energyRestore + " energy.");
+        addGameLog(target.title + " restored " + target.restoreAmount + " health and " + target.energyRestore + " energy.");
 
         target.health += target.restoreAmount;
 
@@ -285,54 +384,13 @@ var game = (function () {
 
 
 
-
-    var winnerCheck = function () {
-
-
-        if (you.health <= 0) {
-
-            document.getElementsByClassName("audio-lost")[0].play();
-
-            you.health = 0;
-
-            disableActions();
-
-            $(you.healthProgress).attr("value", you.health);
-            $(you.healthText).text(you.health + "/" + you.healthMax);
-
-            alert("You have been defeated!");
-
-        }
-
-
-        if (enemy.health <= 0) {
-
-            document.getElementsByClassName("audio-cheer")[0].play();
-
-            enemy.health = 0;
-
-            disableActions();
-
-            $(enemy.healthProgress).attr("value", enemy.health);
-            $(enemy.healthText).text(enemy.health + "/" + enemy.healthMax);
-
-            alert("You defeated the enemy!");
-
-        }
-
-
-    }
-
-
-
-
-    var castSwordSpell = function (target, spellNoteSuccess, spellNoteFail, energyCost, energyChance, energyMultiplier, energyAdder, 
+    var castSwordSpell = function (
+        target, spellNoteSuccess, spellNoteFail, energyCost, energyChance, energyMultiplier, energyAdder, 
         healthCostDivider, healthCostSubtractor) 
     {
-
         if(target.energy < energyCost)
         {
-            alert("Not enough energy to cast this sword spell... Need " + energyCost + " energy!");
+            addGameLog("Not enough energy to cast this sword spell... Need " + energyCost + " energy!");
 
             return false;
         }
@@ -343,7 +401,6 @@ var game = (function () {
         $(target.energyText).text(target.energy);
 
         var random = Math.floor(Math.random() * energyChance);
-
         
 
         if (random == 0) 
@@ -359,7 +416,7 @@ var game = (function () {
                 target.damage += energyAdder;
             }
 
-            alert(spellNoteSuccess);
+            addGameLog(spellNoteSuccess);
 
             return true;
 
@@ -367,16 +424,13 @@ var game = (function () {
         
         else 
         {
-            
             if(healthCostDivider !== -1){
                 target.health /= healthCostDivider;
                 target.health = Math.round(target.health);
             }
-
             else if( healthCostSubtractor !== -1){
                 target.health -= healthCostSubtractor;
             }
-
 
             if (target.health <= 0) {
                 target.health = 0;
@@ -385,10 +439,9 @@ var game = (function () {
             $(target.healthProgress).attr("value", target.health);
             $(target.healthText).text(target.health + "/" + target.healthMax);
 
-            alert(spellNoteFail);
+            addGameLog(spellNoteFail);
 
             return false;
-
         }
     }
 
@@ -403,132 +456,73 @@ var game = (function () {
 
     // Player actions.
 
-    function youAttack() {
-
+    function youAttack()
+    {
         disableActions();
 
-        setTimeout(function () {
+        performAttack(you, enemy);
 
-            performAttack(you, enemy);
+        enemy.counterAllowed = true;
+        you.counterAllowed = false;
 
-            enemy.counterAllowed = true;
-            you.counterAllowed = false;
-
-            winnerCheck();
-
-            if (enemy.health > 0) {
-                enemyMove();
-            }
-
-        }, 1100);
-
+        progressGame();
     }
 
 
 
-    function youRestore() {
-
+    function youRestore() 
+    {
         disableActions();
 
-        setTimeout(function () {
-
-            performRestore(you);
-
-            enemy.counterAllowed = false;
-
-            winnerCheck();
-
-            if (enemy.health > 0) {
-                enemyMove();
-            }
-        }, 1100);
-
+        performRestore(you);
+            
+        enemy.counterAllowed = false;
+            
+        progressGame();
     }
 
 
 
+    function youCounter() 
+    {
+        disableActions();
 
-
-
-    function youCounter() {
-
-        if (enemy.health > 0) {
+        if(isGameOver() === false)
+        {
             enemyMove();
-
-            disableActions();
         }
 
+        if (you.counterAllowed)
+        {
+            performCounter(you, enemy);
+        }
+        else 
+        {
+            addGameLog("You failed to counter");
+        }
 
-        setTimeout(function () {
+        you.counterAllowed = false;
+        enemy.counterAllowed = false;
 
-            disableActions();
-
-            winnerCheck();
-
-            if (you.counterAllowed) {
-                
-                setTimeout(function () {
-
-                    performCounter(you, enemy);
-
-                    enableActions();
-
-                    winnerCheck();
-
-                }, 1100);
-
-            }
-
-
-            else {
-
-                setTimeout(function () {
-
-                    alert("You failed your counter");
-
-                    enableActions();
-
-                    winnerCheck();
-
-                }, 1100);
-
-            }
-
-                
-            you.counterAllowed = false;
-            enemy.counterAllowed = false;
-
-        }, 1100);
-
-
+        progressGame(false);
     }
 
 
 
-
-    function youCastHolyBladeSpell() {
-
+    function youCastHolyBladeSpell() 
+    {
         disableActions();
+        
+        castSwordSpell(
+            you,
+            you.title + " cast Holy Blade spell imbuing your sword with blistering holy energy. Your sword is now three times more powerful!",
+            you.title + " failed to cast Holy Blade spell! You are left weakened and half your health points have been drained...",
+            100, 2, 3, -1, 2, -1
+        );
 
-        setTimeout(function () {
+        enemy.counterAllowed = false;
 
-            castSwordSpell(
-                you,
-                you.title + " cast Holy Blade spell imbuing your sword with blistering holy energy. Your sword is now three times more powerful!",
-                you.title + " failed to cast Holy Blade spell! You are left weakened and half your health points have been drained...",
-                100, 2, 3, -1, 2, -1
-            );
-
-            enemy.counterAllowed = false;
-
-            winnerCheck();
-
-            if (enemy.health > 0) {
-                enemyMove();
-            }
-            
-        }, 1100);
-
+        progressGame();
     }
 
 
@@ -542,159 +536,107 @@ var game = (function () {
 
     // Enemy actions.
 
-    function enemyMove() {
-
-        winnerCheck();
-
+    function enemyMove() 
+    {
         var random = Math.floor(Math.random() * 3);
 
-        switch (random) {
-                
-            case 0: {
+        switch (random) 
+        {       
+            case 0: 
+            {
 
-                if(enemy.usedFireBladeSpell === false && enemy.energy >= 25 && enemy.health > 10 ){
-                        
+                if(enemy.usedFireBladeSpell === false && enemy.energy >= 25 && enemy.health > 10 )
+                {
                     var randomSpellCast = Math.floor(Math.random() * 4);
-                    if( randomSpellCast === 3 ){
+                    if( randomSpellCast === 3 )
+                    {
                         enemyCastFireBladeSpell();
                     }
-                    else {
+                    
+                    else 
+                    {
                         enemyAttack();
                     }
                 }
-                else {
+
+                else 
+                {
                     enemyAttack();
                 }
 
                 break;
             }
 
-            case 1: {
+            case 1: 
+            {
                 enemyRestore();
                 break;
             }
 
-            case 2: {
+            case 2: 
+            {
                 enemyCounter();
                 break;
             }
-
         }
-
     }
 
 
 
-    function enemyAttack() {
+    function enemyAttack() 
+    {
+        performAttack(enemy, you);
 
-        setTimeout(function () {
-
-            performAttack(enemy, you);
-
-            you.counterAllowed = true;
-            enemy.counterAllowed = false;
-
-            enableActions();
-
-            winnerCheck();
-
-        }, 1100);
-
+        you.counterAllowed = true;
+        enemy.counterAllowed = false;
     }
 
 
 
-    function enemyRestore() {
+    function enemyRestore() 
+    {
+        performRestore(enemy);
 
-        setTimeout(function () {
-
-            performRestore(enemy);
-
-            you.counterAllowed = false;
-            enemy.counterAllowed = false;
-
-            enableActions();
-
-            winnerCheck();
-
-        }, 1100);
-
+        you.counterAllowed = false;
+        enemy.counterAllowed = false;
     }
 
 
 
-    function enemyCounter() {
-
-        if (enemy.counterAllowed) {
-
-            winnerCheck();
-
-            setTimeout(function () {
-
-                performCounter(enemy, you);
-
-                enableActions();
-
-                winnerCheck();
-
-            }, 1100);
-
+    function enemyCounter() 
+    {
+        if (enemy.counterAllowed) 
+        {
+            performCounter(enemy, you);
         }
-
-        else {
-
-            setTimeout(function () {
-
-                alert("Enemy failed his counter");
-
-                enableActions();
-
-                winnerCheck();
-
-            }, 1100);
-
+        else 
+        {
+            addGameLog("Enemy failed his counter");
         }
 
         you.counterAllowed = false;
         enemy.counterAllowed = false;
-
-
-        winnerCheck();
-
     }
 
 
 
+    function enemyCastFireBladeSpell() 
+    {
+        var result = castSwordSpell(
+            enemy,
+            enemy.title + " cast Fire Blade spell imbuing it with +4 flame damage!",
+            enemy.title + " failed to cast Fire Blade spell and is drained by 10 health points...",
+            25, 4, -1, 4, -1, 10
+        );
 
-    function enemyCastFireBladeSpell() {
+        if( result === true )
+        {
+            enemy.usedFireBladeSpell = true;
+        }
 
-        setTimeout(function () {
-
-            var result = castSwordSpell(
-                enemy,
-                enemy.title + " cast Fire Blade spell imbuing it with +4 flame damage!",
-                enemy.title + " failed to cast Fire Blade spell and is drained by 10 health points...",
-                25, 4, -1, 4, -1, 10
-            );
-
-            if( result === true ){
-                enemy.usedFireBladeSpell = true;
-            }
-
-            you.counterAllowed = true;
-            enemy.counterAllowed = false;
-
-            enableActions();
-
-            winnerCheck();
-
-        }, 1100);
-
-
-
+        you.counterAllowed = true;
+        enemy.counterAllowed = false;
     }
-
-
 
 
 
@@ -702,38 +644,19 @@ var game = (function () {
 
 
 
-
-
-
-
-
     // Public functions.
     return {
-
         youAttack: youAttack,
         youCounter: youCounter,
         youRestore: youRestore,
         youCastHolyBladeSpell: youCastHolyBladeSpell,
         restartGame : restartGame
-
     };
 
 
-
-
+    
 
 
 
 
 })();
-
-
-
-
-
-
-
-
-
-
-
