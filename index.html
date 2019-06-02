@@ -19,6 +19,10 @@
 
 <body>
 
+    <aside class="whatever">
+        Please wait...
+    </aside>
+
     <aside class="splash">
         <a class="action start-game" href="#"> Start Game</i></a>
     </aside>
@@ -87,26 +91,24 @@
 
         <article class="main">
 
-            <div class="knight">
-                <span>You: </span>
+            <div class="you">
+                <span class="you--title"></span>
                 <progress class="you-health-progress"></progress>
                 <p class="you-health-text"></p>
                 <p>Energy: <span class="you-energy-text"></span></p>
 
-                <div class="you">
-                    <!-- <img src="https://orig00.deviantart.net/3669/f/2018/178/5/8/knight_3_idle_anim_by_kungfoowiz-dcfn8e7.gif" /> -->
-                    <img src="https://www.dropbox.com/s/dx91xmoxzkqnbrf/KnightSilo.png?dl=1" />
+                <div class="you--avatar">
+                    <img src="https://www.dropbox.com/s/88u536v6zrx54tr/Sparring-knight.png?dl=1" />
                 </div>
             </div>
 
-            <div class="sorceress">
-                <span>Enemy: </span>
+            <div class="enemy">
+                <span class="enemy--title"></span>
                 <progress class="enemy-health-progress"></progress>
                 <p class="enemy-health-text"></p>
                 <p>Energy: <span class="enemy-energy-text"></span></p>
 
-                <div class="enemy">
-                    <!-- <img src="https://orig00.deviantart.net/56d7/f/2018/178/c/d/sorcerer_villain_anim_by_kungfoowiz-dcfn85l.gif" /> -->
+                <div class="enemy--avatar">
                     <img src="https://www.dropbox.com/s/9c5x17coag5vnay/GoblinSilo.png?dl=1" />
                 </div>
             </div>
@@ -141,7 +143,6 @@
                 <span class="tooltip">Restart your game.</span>
             </button>
 
-            <!--<p style="margin: 3px; margin-top: 10px;">Spells:</p>-->
         </aside>
 
     </div>

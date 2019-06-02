@@ -2,10 +2,10 @@
 
 var game = (function () {
 
-    var version = 1.000;
+    var version = 1.001;
 
 
-
+    
     const youHealth = 100;
     const youHealthMax = 100;
     const youDamage = 10;
@@ -27,8 +27,9 @@ var game = (function () {
 
     $(function () {
 
+        $(".whatever").fadeOut();
+
         $(".start-game").on("click", function () {
-            // $("html, body").animate({ scrollTop: $("header").offset().top }, 4000);
 
             $(".splash").fadeOut();
 
@@ -41,21 +42,15 @@ var game = (function () {
         });
 
 
-        $(you.healthProgress).attr("value", you.health);
-        $(you.healthProgress).attr("max", you.healthMax);
-        $(you.healthText).text(you.health + "/" + you.healthMax);
-        
-        $(you.energyText).text(you.energy);
+        resetCreature(you, youHealthMax, youDamage, youRestoreAmount, youEnergyMax, youEnergyRestore, 
+            ".you-health-progress", ".you-health-text", ".you-energy-text", ".you--title", 
+            ".you--avatar img", "https://www.dropbox.com/s/88u536v6zrx54tr/Sparring-knight.png?dl=1");
 
+        resetCreature(enemy, enemyHealthMax, enemyDamage, enemyRestoreAmount, enemyEnergyMax, enemyEnergyRestore, 
+            ".enemy-health-progress", ".enemy-health-text", ".enemy-energy-text", ".enemy--title", 
+            ".enemy--avatar img", "https://www.dropbox.com/s/9c5x17coag5vnay/GoblinSilo.png?dl=1");
 
-        $(enemy.healthProgress).attr("value", enemy.health);
-        $(enemy.healthProgress).attr("max", enemy.healthMax);
-        $(enemy.healthText).text(enemy.health + "/" + enemy.healthMax);
-
-        $(enemy.energyText).text(enemy.energy);
-
-
-        
+        enemy.usedFireBladeSpell = false;
 
     });
 
@@ -68,7 +63,7 @@ var game = (function () {
     // Game objects.
 
     var you = (function () {
-        var title = "You";
+        var title = "Knight (Level 1)";
 
         var life = true;
 
@@ -115,7 +110,7 @@ var game = (function () {
 
 
     var enemy = (function () {
-        var title = "Goblin";
+        var title = "Goblin (Effortless)";
 
         var health = enemyHealth;
         var healthMax = enemyHealthMax;
@@ -185,52 +180,40 @@ var game = (function () {
 
         enableActions();
 
-        you.life = true;
+        resetCreature(you, youHealthMax, youDamage, youRestoreAmount, youEnergyMax, youEnergyRestore, 
+            ".you-health-progress", ".you-health-text", ".you-energy-text", ".you--title", 
+            ".you--avatar img", "https://www.dropbox.com/s/88u536v6zrx54tr/Sparring-knight.png?dl=1");
 
-        you.health = youHealth;
-        you.healthMax = youHealthMax;
-        you.damage = youDamage;
-        you.restoreAmount = youRestoreAmount;
-
-        you.counterAllowed = false;
-
-        you.energy = youEnergyMax;
-        you.energyMax = youEnergyMax;
-        you.energyRestore = youEnergyRestore;
-
-        $(you.healthProgress).attr("value", you.health);
-        $(you.healthProgress).attr("max", you.healthMax);
-        $(you.healthText).text(you.health + "/" + you.healthMax);
-        
-        $(you.energyText).text(you.energy);
-
-
-
-        enemy.health = enemyHealth;
-        enemy.healthMax = enemyHealthMax;
-        enemy.damage = enemyDamage;
-        enemy.restoreAmount = enemyRestoreAmount;
-
-        enemy.energy = enemyEnergyMax;
-        enemy.energyMax = enemyEnergyMax;
-        enemy.energyRestore = enemyEnergyRestore;
-
-        enemy.counterAllowed = false;
+        resetCreature(enemy, enemyHealthMax, enemyDamage, enemyRestoreAmount, enemyEnergyMax, enemyEnergyRestore, 
+            ".enemy-health-progress", ".enemy-health-text", ".enemy-energy-text", ".enemy--title", 
+            ".enemy--avatar img", "https://www.dropbox.com/s/9c5x17coag5vnay/GoblinSilo.png?dl=1");
         enemy.usedFireBladeSpell = false;
-
-        $(enemy.healthProgress).attr("value", enemy.health);
-        $(enemy.healthProgress).attr("max", enemy.healthMax);
-        $(enemy.healthText).text(enemy.health + "/" + enemy.healthMax);
-
-        $(enemy.energyText).text(enemy.energy);
-
-
-
 
         $(".gameboard").fadeOut();
 
         $(".splash").fadeIn();
 
+    }
+
+
+
+    var resetCreature = function (creature, healthMax, damage, restoreAmount, energyMax, energyRestore, 
+        healthProgressTag, healthTextTag, energyTextTag, creatureTitleTag, creatureImageTag, creatureImage) {
+        
+        creature.health = healthMax;
+        creature.healthMax = healthMax;
+        creature.damage = damage;
+        creature.restoreAmount = restoreAmount;
+        creature.counterAllowed = false;
+        creature.energy = energyMax;
+        creature.energyMax = energyMax;
+        creature.energyRestore = energyRestore;
+        $(healthProgressTag).attr("value", creature.health);
+        $(healthProgressTag).attr("max", creature.healthMax);
+        $(healthTextTag).text(creature.health + "/" + creature.healthMax);
+        $(energyTextTag).text(creature.energy);
+        $(creatureTitleTag).text(creature.title);
+        $(creatureImageTag).attr("src",creatureImage);
     }
 
     
@@ -311,7 +294,6 @@ var game = (function () {
             document.getElementsByClassName("audio-lost")[0].play();
 
             you.health = 0;
-            you.life = false;
 
             disableActions();
 
@@ -345,9 +327,11 @@ var game = (function () {
 
 
     var castSwordSpell = function (target, spellNoteSuccess, spellNoteFail, energyCost, energyChance, energyMultiplier, energyAdder, 
-        healthCostDivider, healthCostSubtractor) {
+        healthCostDivider, healthCostSubtractor) 
+    {
 
-        if(target.energy < energyCost){
+        if(target.energy < energyCost)
+        {
             alert("Not enough energy to cast this sword spell... Need " + energyCost + " energy!");
 
             return false;
@@ -360,24 +344,33 @@ var game = (function () {
 
         var random = Math.floor(Math.random() * energyChance);
 
-        if (random == 0) {
+        
 
-            if(energyMultiplier !== -1){
+        if (random == 0) 
+        {
+
+            if(energyMultiplier !== -1)
+            {
                 target.damage *= energyMultiplier;
             }
 
-            else if(energyAdder !== -1){
+            else if(energyAdder !== -1)
+            {
                 target.damage += energyAdder;
             }
 
             alert(spellNoteSuccess);
 
             return true;
+
         }
-        else {
+        
+        else 
+        {
             
             if(healthCostDivider !== -1){
                 target.health /= healthCostDivider;
+                target.health = Math.round(target.health);
             }
 
             else if( healthCostSubtractor !== -1){
@@ -395,6 +388,7 @@ var game = (function () {
             alert(spellNoteFail);
 
             return false;
+
         }
     }
 
@@ -411,26 +405,22 @@ var game = (function () {
 
     function youAttack() {
 
-        if (you.life) {
+        disableActions();
 
-            disableActions();
+        setTimeout(function () {
 
-            setTimeout(function () {
+            performAttack(you, enemy);
 
-                performAttack(you, enemy);
+            enemy.counterAllowed = true;
+            you.counterAllowed = false;
 
-                enemy.counterAllowed = true;
-                you.counterAllowed = false;
+            winnerCheck();
 
-                winnerCheck();
+            if (enemy.health > 0) {
+                enemyMove();
+            }
 
-                if (enemy.health > 0) {
-                    enemyMove();
-                }
-
-            }, 1100);
-
-        }
+        }, 1100);
 
     }
 
@@ -438,24 +428,20 @@ var game = (function () {
 
     function youRestore() {
 
-        if (you.life) {
+        disableActions();
 
-            disableActions();
+        setTimeout(function () {
 
-            setTimeout(function () {
+            performRestore(you);
 
-                performRestore(you);
+            enemy.counterAllowed = false;
 
-                enemy.counterAllowed = false;
+            winnerCheck();
 
-                winnerCheck();
-
-                if (enemy.health > 0) {
-                    enemyMove();
-                }
-            }, 1100);
-
-        }
+            if (enemy.health > 0) {
+                enemyMove();
+            }
+        }, 1100);
 
     }
 
@@ -477,45 +463,40 @@ var game = (function () {
 
             disableActions();
 
+            winnerCheck();
 
-            if (you.life) {
+            if (you.counterAllowed) {
+                
+                setTimeout(function () {
 
-                winnerCheck();
+                    performCounter(you, enemy);
 
-                if (you.counterAllowed) {
+                    enableActions();
 
+                    winnerCheck();
 
-                    setTimeout(function () {
-
-                        performCounter(you, enemy);
-
-                        enableActions();
-
-                        winnerCheck();
-
-                    }, 1100);
-
-                }
-
-
-                else {
-
-                    setTimeout(function () {
-
-                        alert("You failed your counter");
-
-                        enableActions();
-
-                        winnerCheck();
-
-                    }, 1100);
-
-                }
-
-                you.counterAllowed = false;
-                enemy.counterAllowed = false;
+                }, 1100);
 
             }
+
+
+            else {
+
+                setTimeout(function () {
+
+                    alert("You failed your counter");
+
+                    enableActions();
+
+                    winnerCheck();
+
+                }, 1100);
+
+            }
+
+                
+            you.counterAllowed = false;
+            enemy.counterAllowed = false;
 
         }, 1100);
 
@@ -527,29 +508,26 @@ var game = (function () {
 
     function youCastHolyBladeSpell() {
 
-        if (you.life) {
+        disableActions();
 
-            disableActions();
+        setTimeout(function () {
 
-            setTimeout(function () {
+            castSwordSpell(
+                you,
+                you.title + " cast Holy Blade spell imbuing your sword with blistering holy energy. Your sword is now three times more powerful!",
+                you.title + " failed to cast Holy Blade spell! You are left weakened and half your health points have been drained...",
+                100, 2, 3, -1, 2, -1
+            );
 
-                castSwordSpell(
-                    you,
-                    you.title + " cast Holy Blade spell imbuing your sword with blistering holy energy. Your sword is now three times more powerful!",
-                    you.title + " failed to cast Holy Blade spell! You are left weakened and half your health points have been drained...",
-                    100, 2, 3, -1, 2, -1
-                );
+            enemy.counterAllowed = false;
 
-                enemy.counterAllowed = false;
+            winnerCheck();
 
-                winnerCheck();
-
-                if (enemy.health > 0) {
-                    enemyMove();
-                }
-            }, 1100);
-
-        }
+            if (enemy.health > 0) {
+                enemyMove();
+            }
+            
+        }, 1100);
 
     }
 
